@@ -1,0 +1,83 @@
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+function islandora_embed_menu() {
+  $items = array();
+  $items['islandora/embed'] = array(
+    'title' => 'Islandora Embed',
+    'description' => "Interpret the embedding request and send back JSON objects",
+    'page callback' => 'islandora_embed',
+    'type' => MENU_CALLBACK,
+    'access callback' => TRUE,
+  );
+  $items['islandora/embed/maxwidth/%/maxheight/%/url/%'] = array(
+    'title' => 'Islandora Embed',
+    'description' => "Interpret the embedding request and send back JSON objects",
+    'page callback' => 'islandora_embed',
+    'type' => MENU_CALLBACK,
+    'access callback' => TRUE,
+  );
+  $items['islandora/embed/object/%islandora_object'] = array(
+    'title' => 'Islandora Embed',
+    'description' => "Send back JSON objects in response to oembed requests",
+    'page callback' => 'islandora_embed_object',
+    'page arguments' => array(3),
+    'type' => MENU_CALLBACK,
+    'access callback' => TRUE,
+  );
+  return $items;
+}
+
+function islandora_embed(){
+    $parameters = drupal_get_query_parameters($query = NULL);
+    if(isset($parameters['url']) && $parameters['url'] != ""){
+        $url = $parameters['url'];
+        unset($parameters['url']);
+        drupal_goto($url, array('query' => $parameters));
+    }
+    print_r($parameters);
+    exit();
+}
+
+function islandora_embed_object(AbstractFedoraObject $object){
+    global $base_url;
+    module_load_include('inc', 'islandora_embed', 'includes/response_generator');
+    $fedoraObjExt = new FedoraObjectExtended($object->id, $object->repository);
+    if(isset($_GET['maxwidth'])){
+        $maxwidth = $_GET['maxwidth'];
+    }
+    elseif(isset($_GET['width'])){
+        $maxwidth = $_GET['width'];
+    }
+    if(isset($_GET['maxheight'])){
+        $maxheight = $_GET['maxheight'];
+    }
+    elseif(isset($_GET['height'])){
+        $maxheight = $_GET['height'];
+    }
+    $resGenerator = new RespsonseGenerator($fedoraObjExt, $base_url, $maxheight, $maxwidth);
+    $resGenerator->getJSONResponse();
+}
+
+//function islandora_embed_page_alter(&$page) {
+//    unset($page['footer']);
+//} 
+
+function islandora_embed_theme(){
+    return array(    
+    'islandora_internet_archive_bookreader_book_info' => array(
+      'file' => 'theme/theme.inc',
+      'template' => 'theme/islandora-embed',
+      'variables' => array('object' => NULL),
+       'preprocess functions' => array(
+          0 => 'islandora_embed_preprocess_islandora_embed'
+        ),
+    ),
+  );
+}
+
