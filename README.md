@@ -8,37 +8,36 @@ Steps to set up oembed services provider:
 
 2. Install and enable the entity iframe theme;
 
-3. Create a new content type;
+3. Go to themekey configure, select “user interface”, and select “theme switching rule chain”, and then set up new rules on drupal:path (islandora/object/%) and system:query_param (ui=embed);
 
-4. Go to themekey configure, select “user interface”, and select “theme switching rule chain”, and then set up new rules on drupal:path (islandora/object/%) and system:query_param (ui=embed);
+4. Install the islandora_embed module. This module handles the oembed requests and can also respond with pure JSON objects so it can provide API services;
 
-5. Install the islandora_embed module. This module handles the oembed requests and can also respond with pure JSON objects so it can provide API services;
-
-6. if the domain name has significance for its first part, i.e. 192.168.11.142, the code of the oembed core module should be modified:
+5. if the domain name has significance for its first part, i.e. 192.168.11.142, the code of the oembed core module should be modified:
     for the function of _oembedcore_get_host($uri){
      *************
     }
     Note: this should be a bug with this module
     other regular websites like www.youtube.com, the first part of ‘www’ has no much meaning for its API so the current function works, but we have to be careful about this when implementing our oembed services.
 
-7. Set up the oembed module by adding new providers.
+6. Set up the oembed module by adding new providers.
 
-8. For adding oembed field to a content type, create new field of "Link", and then click “manage display settings”, set the oembed field display to be "Oembed". 
+7. For adding oembed field to a content type, create new field of "Link", and then click “manage display settings”, set the oembed field display to be "Oembed". 
     For islandora internet book reader, set the width == height will make the embedded frame pretty.
 
-9. To make our oembed url work with drupal user comments:
-    9.1 Enable the oembed filter module and create an oembed filter, and let it to be the 
+8. To make our oembed url work with drupal user comments:
+    8.1 Enable the oembed filter module and create an oembed filter, and let it to be the 
                   default filter;
-    9.2 Make the url to be like the following format:
+    8.2 Make the url to be like the following format:
         http://192.168.11.142:8181/islandora/embed/object/islandora%253A18?height=500&width=500 
           (the width and height are optional: the system can provide default dimension parameters)
-        
-10. Code changes to the islandora_internet_archive_bookreader module:
-    10.1 New javascript file for adjusting the appearance of the book reader:
-         embed_bookreader.js
-    10.2 The islandora_internet_archive_bookreader module: theme/theme.inc is also 
-                    modified for accommodation of the oembed services.
 
+/** unnecessary now **/        
+9. Code changes to the islandora_internet_archive_bookreader module:
+    9.1 New javascript file for adjusting the appearance of the book reader:
+         embed_bookreader.js
+    9.2 The islandora_internet_archive_bookreader module: theme/theme.inc is also 
+                    modified for accommodation of the oembed services.
+**/
      
     
      
