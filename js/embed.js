@@ -5,6 +5,10 @@
  */
 
 (function ($) {
+    
+   /**
+   * Modify the display of embedded islandora bookreader.
+   */
     Drupal.behaviors.embedBookReader = {
     attach: function(context, settings) {
       

@@ -1,12 +1,21 @@
 <?php
 
+/**
+ * This class provides the function to output object-related information.
+ */
 Class FedoraObjectExtended extends FedoraObject
 {
     public function __construct($id, $repository){
         parent::__construct($id, $repository);
     }
     
-    //"info:fedora/islandora:bookCModel"
+    /**
+     * Expose the content model information.
+     * 
+     * return string
+     * content model name
+     * e.g. "islandora:bookCModel" for islandora bookreader type
+     */
     public function getFedoraObjectModel(){
         $profile = $this->getFedoraObjectProfile();
         $model_arr = explode(':',$profile['objModels'][0]);
@@ -14,12 +23,21 @@ Class FedoraObjectExtended extends FedoraObject
         return $model_arr[$size-1];
     }
 
+    /**
+     * Expose the profile of fedora object.
+     * 
+     * @return array
+     * fedora object profile contains a general description of this object.
+     */
     public function getFedoraObjectProfile() {
         return $this->objectProfile;
     }
 
 }
 
+/**
+ * This class generates appropriate responses based on different request types.
+ */
 Class RespsonseGenerator
 {
     protected $fedoraObjExt;
@@ -29,6 +47,16 @@ Class RespsonseGenerator
     protected $width;
 
 
+    /**
+     * constructor
+     * 
+     * @param FedoraObjectExtended $fedoraObjExt
+     * @param string $base_url
+     * @param int $height
+     * @param int $width
+     * @param int $iframeHeight
+     * @param int $iframeWidth
+     */
     public function __construct(FedoraObjectExtended $fedoraObjExt, $base_url, $height = 500, $width = 500, $iframeHeight = 500, $iframeWidth = 500){
         
         if($height != 500)
@@ -44,22 +72,45 @@ Class RespsonseGenerator
         $this->base_url = $base_url;
     }
     
+    /**
+     * set iframeHeight
+     * 
+     * @param int $iframeHeight
+     */
     public function setIframeHeight($iframeHeight){
         $this->iframeHeight = $iframeHeight;
     }
     
+    /**
+     * set iframeWidth
+     * 
+     * @param type $iframeWidth
+     */
     public function setIframeWidth($iframeWidth){
         $this->iframeWidth = $iframeWidth;
     }
     
+    /**
+     * set height
+     * 
+     * @param int $height
+     */
     public function setHeight($height){
         $this->height = $height;
     }
     
+    /**
+     * set width
+     * 
+     * @param int $width
+     */
     public function setWidth($width){
         $this->width = $width;
     }
     
+    /**
+     * Generate the JSON object for Oembed requests
+     */
     public function getJSONResponse(){
         
         $resArray = Array();
@@ -100,6 +151,9 @@ Class RespsonseGenerator
         echo json_encode($resArray);
     }
     
+    /**
+     * Redirects specific requests to display of islandora content model objects
+     */
     public function getEmbeddedObjUI(){
         $objModel = $this->fedoraObjExt->getFedoraObjectModel(); 
         switch($objModel){
@@ -125,6 +179,9 @@ Class RespsonseGenerator
         }
     }
     
+    /**
+     * Generate the XML response based on Oembed requests
+     */
     public function getXmlResponse(){
         
     }

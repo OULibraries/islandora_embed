@@ -6,8 +6,13 @@
  * and open the template in the editor.
  */
 
+/**
+ * the hook to modify display of islandora bookreader
+ * 
+ * @param array $variables
+ */
 function islandora_embed_process_islandora_internet_archive_bookreader(&$variables) {
-//    drupal_add_js(drupal_get_path('module', 'islandora_embed') . '/js/embed.js', array('group' => JS_LIBRARY));
+
     $parameters = drupal_get_query_parameters();
     if(isset($parameters['ui']) && $parameters['ui'] == 'embed'){
         $bookreader_embed_settings = array();

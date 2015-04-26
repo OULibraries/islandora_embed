@@ -6,6 +6,12 @@
  * and open the template in the editor.
  */
 
+/**
+ * Implements hook_menu().
+ *
+ * 
+ * @return string
+ */
 function islandora_embed_menu() {
   $items = array();
   $items['islandora/embed'] = array(
@@ -41,6 +47,9 @@ function islandora_embed_menu() {
   return $items;
 }
 
+/**
+ * Redirects Oembed requests to appropriate content model module.
+ */
 function islandora_embed(){
     $parameters = drupal_get_query_parameters($query = NULL);
     if(isset($parameters['url']) && $parameters['url'] != ""){
@@ -48,10 +57,20 @@ function islandora_embed(){
         unset($parameters['url']);
         drupal_goto($url, array('query' => $parameters));
     }
-    print_r($parameters);
     exit();
 }
 
+/**
+ * Generate the response based on the Oembed requests.
+ * 
+ * @global type $base_url
+ * @param AbstractFedoraObject $object
+ * The object.
+ * 
+ * @return JSON object
+ * JSON object containing data for being processed by the Oembed module
+ * to generate embedded display.
+ */
 function islandora_embed_object(AbstractFedoraObject $object){
     global $base_url;
     module_load_include('inc', 'islandora_embed', 'includes/response_generator');
@@ -72,6 +91,14 @@ function islandora_embed_object(AbstractFedoraObject $object){
     $resGenerator->getJSONResponse();
 }
 
+/**
+ * Redirects the requests directly to the display of content model without returning JSON objects.
+ * 
+ * @global type $base_url
+ * @param AbstractFedoraObject $object
+ * The object.
+ * 
+ */
 function islandora_embed_object_UI(AbstractFedoraObject $object) {
     global $base_url;
     module_load_include('inc', 'islandora_embed', 'includes/response_generator');
@@ -93,6 +120,10 @@ function islandora_embed_object_UI(AbstractFedoraObject $object) {
     $resGenerator->getEmbeddedObjUI();
 }
 
+/**
+ * Test purpose only. No practical use.
+ * @return array
+ */
 function islandora_embed_theme(){
     return array(    
     'islandora_internet_archive_bookreader_book_info' => array(
