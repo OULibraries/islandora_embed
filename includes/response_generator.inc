@@ -100,6 +100,31 @@ Class RespsonseGenerator
         echo json_encode($resArray);
     }
     
+    public function getEmbeddedObjUI(){
+        $objModel = $this->fedoraObjExt->getFedoraObjectModel(); 
+        switch($objModel){
+            case 'bookCModel':
+                $encodedUrl = $this->base_url."/islandora/object/".$this->fedoraObjExt->id;                
+                if($this->width > 0){
+                    $encodedUrl .= "&wight=".$this->width;
+                    $this->setHeight($this->width);
+                    $encodedUrl .= "&height=".$this->height;
+                }
+                elseif($this->height > 0){
+                    $encodedUrl .= "&height=".$this->height;
+                    $this->setWidth($this->height);
+                    $encodedUrl .= "&wight=".$this->width;
+                }
+                
+                drupal_goto($encodedUrl);
+                break;
+            default:
+                echo "The islandora object model does not exist!";
+                exit();
+                break;
+        }
+    }
+    
     public function getXmlResponse(){
         
     }
