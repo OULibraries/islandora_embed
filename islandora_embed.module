@@ -1,6 +1,7 @@
 <?php
 
-/* 
+/**
+ * @file
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -9,7 +10,6 @@
 /**
  * Implements hook_menu().
  *
- * 
  * @return string
  */
 function islandora_embed_menu() {
@@ -50,90 +50,89 @@ function islandora_embed_menu() {
 /**
  * Redirects Oembed requests to appropriate content model module.
  */
-function islandora_embed(){
-    $parameters = drupal_get_query_parameters($query = NULL);
-    if(isset($parameters['url']) && $parameters['url'] != ""){
-        $url = $parameters['url'];
-        unset($parameters['url']);
-        drupal_goto($url, array('query' => $parameters));
-    }
-    exit();
+function islandora_embed() {
+  $parameters = drupal_get_query_parameters($query = NULL);
+  if (isset($parameters['url']) && $parameters['url'] != "") {
+    $url = $parameters['url'];
+    unset($parameters['url']);
+    drupal_goto($url, array('query' => $parameters));
+  }
+  exit();
 }
 
 /**
  * Generate the response based on the Oembed requests.
- * 
+ *
  * @global type $base_url
  * @param AbstractFedoraObject $object
  * The object.
- * 
+ *
  * @return JSON object
  * JSON object containing data for being processed by the Oembed module
  * to generate embedded display.
  */
-function islandora_embed_object(AbstractFedoraObject $object){
-    global $base_url;
-    module_load_include('inc', 'islandora_embed', 'includes/response_generator');
-    $fedoraObjExt = new FedoraObjectExtended($object->id, $object->repository);
-    if(isset($_GET['maxwidth'])){
-        $maxwidth = $_GET['maxwidth'];
-    }
-    elseif(isset($_GET['width'])){
-        $maxwidth = $_GET['width'];
-    }
-    if(isset($_GET['maxheight'])){
-        $maxheight = $_GET['maxheight'];
-    }
-    elseif(isset($_GET['height'])){
-        $maxheight = $_GET['height'];
-    }
-    $resGenerator = new RespsonseGenerator($fedoraObjExt, $base_url, $maxheight, $maxwidth);
-    $resGenerator->getJSONResponse();
+function islandora_embed_object(AbstractFedoraObject $object) {
+  global $base_url;
+  module_load_include('inc', 'islandora_embed', 'includes/response_generator');
+  $fedoraObjExt = new FedoraObjectExtended($object->id, $object->repository);
+  if (isset($_GET['maxwidth'])) {
+    $maxwidth = $_GET['maxwidth'];
+  }
+  elseif (isset($_GET['width'])) {
+    $maxwidth = $_GET['width'];
+  }
+  if (isset($_GET['maxheight'])) {
+    $maxheight = $_GET['maxheight'];
+  }
+  elseif (isset($_GET['height'])) {
+    $maxheight = $_GET['height'];
+  }
+  $resGenerator = new RespsonseGenerator($fedoraObjExt, $base_url, $maxheight, $maxwidth);
+  $resGenerator->getJSONResponse();
 }
 
 /**
  * Redirects the requests directly to the display of content model without returning JSON objects.
- * 
+ *
  * @global type $base_url
  * @param AbstractFedoraObject $object
  * The object.
- * 
  */
 function islandora_embed_object_UI(AbstractFedoraObject $object) {
-    global $base_url;
-    module_load_include('inc', 'islandora_embed', 'includes/response_generator');
-    module_load_include('inc', 'islandora', 'islandora.module');
-    $fedoraObjExt = new FedoraObjectExtended($object->id, $object->repository);
-    if(isset($_GET['maxwidth'])){
-        $maxwidth = $_GET['maxwidth'];
-    }
-    elseif(isset($_GET['width'])){
-        $maxwidth = $_GET['width'];
-    }
-    if(isset($_GET['maxheight'])){
-        $maxheight = $_GET['maxheight'];
-    }
-    elseif(isset($_GET['height'])){
-        $maxheight = $_GET['height'];
-    }
-    $resGenerator = new RespsonseGenerator($fedoraObjExt, $base_url, $maxheight, $maxwidth);
-    $resGenerator->getEmbeddedObjUI();
+  global $base_url;
+  module_load_include('inc', 'islandora_embed', 'includes/response_generator');
+  module_load_include('inc', 'islandora', 'islandora.module');
+  $fedoraObjExt = new FedoraObjectExtended($object->id, $object->repository);
+  if (isset($_GET['maxwidth'])) {
+    $maxwidth = $_GET['maxwidth'];
+  }
+  elseif (isset($_GET['width'])) {
+    $maxwidth = $_GET['width'];
+  }
+  if (isset($_GET['maxheight'])) {
+    $maxheight = $_GET['maxheight'];
+  }
+  elseif (isset($_GET['height'])) {
+    $maxheight = $_GET['height'];
+  }
+  $resGenerator = new RespsonseGenerator($fedoraObjExt, $base_url, $maxheight, $maxwidth);
+  $resGenerator->getEmbeddedObjUI();
 }
 
 /**
  * Test purpose only. No practical use.
+ *
  * @return array
  */
-function islandora_embed_theme(){
-    return array(    
+function islandora_embed_theme() {
+  return array(
     'islandora_internet_archive_bookreader_book_info' => array(
       'file' => 'theme/theme.inc',
       'template' => 'theme/islandora-embed',
       'variables' => array('object' => NULL),
-       'preprocess functions' => array(
-          0 => 'islandora_embed_preprocess_islandora_embed'
-        ),
+      'preprocess functions' => array(
+        0 => 'islandora_embed_preprocess_islandora_embed',
+      ),
     ),
   );
 }
-
