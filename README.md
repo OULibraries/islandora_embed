@@ -1,6 +1,6 @@
 # oEmbed Provider for Islandora
 
-## Note: this module is an early work-in-progress 
+## Note: this module is an early-stage work-in-progress 
 
 
 ## Introduction
