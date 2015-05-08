@@ -1,5 +1,8 @@
 # oEmbed Provider for Islandora
 
+## Note: this module is an early work-in-progress 
+
+
 ## Introduction
 An Islandora module that enables Islandora Objects to be embedded via oEmbed. Currently works with the Islandora Book Solution Pack. 
 
