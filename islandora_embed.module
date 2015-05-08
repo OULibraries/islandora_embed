@@ -1,15 +1,8 @@
 <?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Implements hook_menu().
  *
- * 
+ *
  * @return string
  */
 function islandora_embed_menu() {
@@ -62,11 +55,11 @@ function islandora_embed(){
 
 /**
  * Generate the response based on the Oembed requests.
- * 
+ *
  * @global type $base_url
  * @param AbstractFedoraObject $object
  * The object.
- * 
+ *
  * @return JSON object
  * JSON object containing data for being processed by the Oembed module
  * to generate embedded display.
@@ -93,11 +86,11 @@ function islandora_embed_object(AbstractFedoraObject $object){
 
 /**
  * Redirects the requests directly to the display of content model without returning JSON objects.
- * 
+ *
  * @global type $base_url
  * @param AbstractFedoraObject $object
  * The object.
- * 
+ *
  */
 function islandora_embed_object_UI(AbstractFedoraObject $object) {
     global $base_url;
@@ -125,7 +118,7 @@ function islandora_embed_object_UI(AbstractFedoraObject $object) {
  * @return array
  */
 function islandora_embed_theme(){
-    return array(    
+    return array(
     'islandora_internet_archive_bookreader_book_info' => array(
       'file' => 'theme/theme.inc',
       'template' => 'theme/islandora-embed',
@@ -136,4 +129,3 @@ function islandora_embed_theme(){
     ),
   );
 }
-
