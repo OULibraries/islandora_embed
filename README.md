@@ -8,7 +8,7 @@ An Islandora module that enables Islandora Objects to be embedded via oEmbed. Cu
 
 This module requires the following modules/libraries:
 
-* The oEmbed Core and oEmbed Provider from https://www.drupal.org/project/oembed
+* oEmbed Core and oEmbed Provider from https://www.drupal.org/project/oembed
 *
 
 You're likely to want to be able to specify an appropriate display for oEmbeded content. There are a number of ways to do this, but we'll assume here that you're using [ThemeKey](https://www.drupal.org/project/themekey) and a minimal theme like [Entity iframe theme](https://www.drupal.org/project/entity_iframe_theme). 
