@@ -5,8 +5,7 @@
  */
 Class FedoraObjectExtended extends FedoraObject
 {
-    public function __construct($id, $repository)
-    {
+    public function __construct($id, $repository){
         parent::__construct($id, $repository);
     }
     
@@ -17,10 +16,9 @@ Class FedoraObjectExtended extends FedoraObject
      * content model name
      * e.g. "islandora:bookCModel" for islandora bookreader type
      */
-    public function getFedoraObjectModel()
-    {
+    public function getFedoraObjectModel(){
         $profile = $this->getFedoraObjectProfile();
-        $model_arr = explode(':', $profile['objModels'][0]);
+        $model_arr = explode(':',$profile['objModels'][0]);
         $size = count($model_arr);
         return $model_arr[$size-1];
     }
@@ -31,8 +29,7 @@ Class FedoraObjectExtended extends FedoraObject
      * @return array
      * fedora object profile contains a general description of this object.
      */
-    public function getFedoraObjectProfile() 
-    {
+    public function getFedoraObjectProfile() {
         return $this->objectProfile;
     }
 
@@ -54,21 +51,18 @@ Class RespsonseGenerator
      * constructor
      * 
      * @param FedoraObjectExtended $fedoraObjExt
-     * @param string               $base_url
-     * @param int                  $height
-     * @param int                  $width
-     * @param int                  $iframeHeight
-     * @param int                  $iframeWidth
+     * @param string $base_url
+     * @param int $height
+     * @param int $width
+     * @param int $iframeHeight
+     * @param int $iframeWidth
      */
-    public function __construct(FedoraObjectExtended $fedoraObjExt, $base_url, $height = 500, $width = 500, $iframeHeight = 500, $iframeWidth = 500)
-    {
+    public function __construct(FedoraObjectExtended $fedoraObjExt, $base_url, $height = 500, $width = 500, $iframeHeight = 500, $iframeWidth = 500){
         
-        if($height != 500) {
-            $iframeHeight = $height; 
-        }
-        if($width != 500) {
-            $iframeWidth = $width; 
-        }
+        if($height != 500)
+            $iframeHeight = $height;
+        if($width != 500)
+            $iframeWidth = $width;
         
         $this->fedoraObjExt = $fedoraObjExt;
         $this->height = $height;
@@ -83,8 +77,7 @@ Class RespsonseGenerator
      * 
      * @param int $iframeHeight
      */
-    public function setIframeHeight($iframeHeight)
-    {
+    public function setIframeHeight($iframeHeight){
         $this->iframeHeight = $iframeHeight;
     }
     
@@ -93,8 +86,7 @@ Class RespsonseGenerator
      * 
      * @param type $iframeWidth
      */
-    public function setIframeWidth($iframeWidth)
-    {
+    public function setIframeWidth($iframeWidth){
         $this->iframeWidth = $iframeWidth;
     }
     
@@ -103,8 +95,7 @@ Class RespsonseGenerator
      * 
      * @param int $height
      */
-    public function setHeight($height)
-    {
+    public function setHeight($height){
         $this->height = $height;
     }
     
@@ -113,16 +104,14 @@ Class RespsonseGenerator
      * 
      * @param int $width
      */
-    public function setWidth($width)
-    {
+    public function setWidth($width){
         $this->width = $width;
     }
     
     /**
      * Generate the JSON object for Oembed requests
      */
-    public function getJSONResponse()
-    {
+    public function getJSONResponse(){
         
         $resArray = Array();
         $resArray['height'] = $this->height;
@@ -134,28 +123,28 @@ Class RespsonseGenerator
         $fedoraObjExt = $this->fedoraObjExt;
         $objModel = $fedoraObjExt->getFedoraObjectModel();        
         switch($objModel){
-        case 'bookCModel':
-            $encodedUrl = $this->base_url."/islandora/object/".$this->fedoraObjExt->id."?ui=embed";                
-            if($this->width > 0) {
-                $encodedUrl .= "&wight=".$this->width;
-                $this->setHeight($this->width);
-                $encodedUrl .= "&height=".$this->height;
-            }
-            elseif($this->height > 0) {
-                $encodedUrl .= "&height=".$this->height;
-                $this->setWidth($this->height);
-                $encodedUrl .= "&wight=".$this->width;
-            }
-            $resArray['type'] = "rich";
-            $resArray['version'] = "1";
-            $resArray['html'] = "<iframe width='".$this->iframeWidth."' height='".$this->iframeHeight."' " .
-                                "src='".$encodedUrl."' frameborder='0' " .
-                                //"style='-webkit-transform:scale(0.5); -moz-transform:scale(0.5); -o-transform:scale(0.5); transform:scale(0.5);' " .
-                                "></iframe>";                
-            break;
-        default:
-            echo "The islandora object model does not exist!";
-            exit();
+            case 'bookCModel':
+                $encodedUrl = $this->base_url."/embed/uuid/".$this->fedoraObjExt->id."?ui=embed";                
+                if($this->width > 0){
+                    $encodedUrl .= "&wight=".$this->width;
+                    $this->setHeight($this->width);
+                    $encodedUrl .= "&height=".$this->height;
+                }
+                elseif($this->height > 0){
+                    $encodedUrl .= "&height=".$this->height;
+                    $this->setWidth($this->height);
+                    $encodedUrl .= "&wight=".$this->width;
+                }
+                $resArray['type'] = "rich";
+                $resArray['version'] = "1";
+                $resArray['html'] = "<iframe width='".$this->iframeWidth."' height='".$this->iframeHeight."' " .
+                                    "src='".$encodedUrl."' frameborder='0' " .
+                                    //"style='-webkit-transform:scale(0.5); -moz-transform:scale(0.5); -o-transform:scale(0.5); transform:scale(0.5);' " .
+                                    "></iframe>";                
+                break;
+            default:
+                echo "The islandora object model does not exist!";
+                exit();
                 break;
         }
         
@@ -165,28 +154,27 @@ Class RespsonseGenerator
     /**
      * Redirects specific requests to display of islandora content model objects
      */
-    public function getEmbeddedObjUI()
-    {
+    public function getEmbeddedObjUI(){
         $objModel = $this->fedoraObjExt->getFedoraObjectModel(); 
         switch($objModel){
-        case 'bookCModel':
-            $encodedUrl = $this->base_url."/islandora/object/".$this->fedoraObjExt->id;                
-            if($this->width > 0) {
-                $encodedUrl .= "&wight=".$this->width;
-                $this->setHeight($this->width);
-                $encodedUrl .= "&height=".$this->height;
-            }
-            elseif($this->height > 0) {
-                $encodedUrl .= "&height=".$this->height;
-                $this->setWidth($this->height);
-                $encodedUrl .= "&wight=".$this->width;
-            }
+            case 'bookCModel':
+                $encodedUrl = $this->base_url."/embed/uuid/".$this->fedoraObjExt->id;                
+                if($this->width > 0){
+                    $encodedUrl .= "&wight=".$this->width;
+                    $this->setHeight($this->width);
+                    $encodedUrl .= "&height=".$this->height;
+                }
+                elseif($this->height > 0){
+                    $encodedUrl .= "&height=".$this->height;
+                    $this->setWidth($this->height);
+                    $encodedUrl .= "&wight=".$this->width;
+                }
                 
-            drupal_goto($encodedUrl);
-            break;
-        default:
-            echo "The islandora object model does not exist!";
-            exit();
+                drupal_goto($encodedUrl);
+                break;
+            default:
+                echo "The islandora object model does not exist!";
+                exit();
                 break;
         }
     }
@@ -194,8 +182,7 @@ Class RespsonseGenerator
     /**
      * Generate the XML response based on Oembed requests
      */
-    public function getXmlResponse()
-    {
+    public function getXmlResponse(){
         
     }
 }

@@ -36,11 +36,27 @@ function islandora_embed_menu() {
     'type' => MENU_CALLBACK,
     'access callback' => TRUE,
   );
+//  $items['embed2/object/uuid/%islandora_object'] = array(
+//    'title' => 'Islandora Embed',
+//    'description' => "Send back JSON objects in response to oembed requests",
+//    'page callback' => 'uuid_embed_object',
+//    'page arguments' => array(3),
+//    'type' => MENU_CALLBACK,
+//    'access callback' => TRUE,
+//  );
   $items['islandora/embed/object_UI/%islandora_object'] = array(
     'title' => 'Islandora Embed',
     'description' => "Send back JSON objects in response to oembed requests",
     'page callback' => 'islandora_embed_object_UI',
     'page arguments' => array(3),
+    'type' => MENU_CALLBACK,
+    'access callback' => TRUE,
+  );
+    $items['embed/uuid/%islandora_object'] = array(
+    'title' => 'Islandora Embed',
+    'description' => "Send back JSON objects in response to oembed requests",
+    'page callback' => 'islandora_embed_object',
+    'page arguments' => array(2),
     'type' => MENU_CALLBACK,
     'access callback' => TRUE,
   );
@@ -136,3 +152,7 @@ function islandora_embed_theme() {
     ),
   );
 }
+//
+//function uuid_embed_object(AbstractFedoraObject $object) {
+//    echo "id = \n";
+//}
