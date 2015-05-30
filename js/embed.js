@@ -50,6 +50,19 @@
             if(bookBRcontainer) {
                 bookBRcontainer.css("height", parseInt(height)-112);
             }
+
+            // hide the side bars to better fit the book viewer in the iframe:
+//            var body = $("body");
+//            if(body.hasClass("one-sidebar")){
+//                body.removeClass("one-sidebar");
+//            }
+//            if(body.hasClass("sidebar-first")){
+//                body.removeClass("sidebar-first");
+//            }
+//            if(!body.hasClass("no-sidebars")){
+//                body.addClass("no-sidebars");
+//            }
+                
         }
     }
 })(jQuery);

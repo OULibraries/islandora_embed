@@ -22,3 +22,13 @@ function islandora_embed_process_islandora_internet_archive_bookreader(&$variabl
         drupal_add_js(drupal_get_path('module', 'islandora_embed') . '/js/embed.js', array('group' => JS_LIBRARY));
     }
 }
+
+/**
+ * Hide the display of the side bars
+ * 
+ * @param array $variables: page html setup
+ */
+function islandora_embed_preprocess_html(&$variables)
+{
+    $variables["classes_array"][3] = "no-sidebars";
+}

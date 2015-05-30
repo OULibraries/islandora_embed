@@ -14,13 +14,26 @@ Class FedoraObjectExtended extends FedoraObject
      * 
      * return string
      * content model name
-     * e.g. "islandora:bookCModel" for islandora bookreader type
+     * e.g. "islandora:bookCModel" for islandora bookreader type (good for version 7.x-1.4 or older); 
+     * Note: In the head verion, however, things have changed:
+     *      1) The model information is like "info:fedora/islandora:bookCModel";
+     *      2) The model information is NOT put at the first position of the array that carries the object model information;
      */
-    public function getFedoraObjectModel(){
-        $profile = $this->getFedoraObjectProfile();
-        $model_arr = explode(':',$profile['objModels'][0]);
-        $size = count($model_arr);
-        return $model_arr[$size-1];
+    public function getFedoraObjectModel()
+    {
+        try {
+            $profile = $this->getFedoraObjectProfile();
+            foreach($profile['objModels'] as $modelInfo) {
+                if(strpos($modelInfo, "islandora:") !== false) {
+                    $model_arr = explode(':', $modelInfo);
+                    $size = count($model_arr);//"info:fedora/islandora:bookCModel"
+                    return $model_arr[$size-1];
+                }
+            }
+            throw new Exception("The islandora object model information is NOT retrieved!", null, null);
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
     }
 
     /**
