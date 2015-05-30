@@ -14,7 +14,7 @@
  */
 function islandora_embed_menu() {
   $items = array();
-  $items['islandora/embed'] = array(
+  $items['embed/uuid'] = array(
     'title' => 'Islandora Embed',
     'description' => "Interpret the embedding request and send back JSON objects",
     'page callback' => 'islandora_embed',
@@ -52,11 +52,11 @@ function islandora_embed_menu() {
     'type' => MENU_CALLBACK,
     'access callback' => TRUE,
   );
-    $items['embed/uuid/%islandora_object'] = array(
+    $items['embed/object/uuid/%islandora_object'] = array(
     'title' => 'Islandora Embed',
     'description' => "Send back JSON objects in response to oembed requests",
     'page callback' => 'islandora_embed_object',
-    'page arguments' => array(2),
+    'page arguments' => array(3),
     'type' => MENU_CALLBACK,
     'access callback' => TRUE,
   );
