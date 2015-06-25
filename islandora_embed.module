@@ -14,6 +14,13 @@
  */
 function islandora_embed_menu() {
   $items = array();
+  $items['embed_service/uuid'] = array(
+    'title' => 'Islandora Embed',
+    'description' => "Interpret the embedding request and send back JSON objects",
+    'page callback' => 'uuid_embed_object',
+    'type' => MENU_CALLBACK,
+    'access callback' => TRUE,
+  );
   $items['islandora/embed'] = array(
     'title' => 'Islandora Embed',
     'description' => "Interpret the embedding request and send back JSON objects",
@@ -36,14 +43,6 @@ function islandora_embed_menu() {
     'type' => MENU_CALLBACK,
     'access callback' => TRUE,
   );
-//  $items['embed2/object/uuid/%islandora_object'] = array(
-//    'title' => 'Islandora Embed',
-//    'description' => "Send back JSON objects in response to oembed requests",
-//    'page callback' => 'uuid_embed_object',
-//    'page arguments' => array(3),
-//    'type' => MENU_CALLBACK,
-//    'access callback' => TRUE,
-//  );
   $items['islandora/embed/object_UI/%islandora_object'] = array(
     'title' => 'Islandora Embed',
     'description' => "Send back JSON objects in response to oembed requests",
@@ -52,10 +51,10 @@ function islandora_embed_menu() {
     'type' => MENU_CALLBACK,
     'access callback' => TRUE,
   );
-    $items['embed/uuid/%islandora_object'] = array(
-    'title' => 'Islandora Embed',
+    $items['embed/uuid/%'] = array(
+    'title' => 'Uuid Embed',
     'description' => "Send back JSON objects in response to oembed requests",
-    'page callback' => 'islandora_embed_object',
+    'page callback' => 'uuid_embed_object',
     'page arguments' => array(2),
     'type' => MENU_CALLBACK,
     'access callback' => TRUE,
@@ -152,7 +151,28 @@ function islandora_embed_theme() {
     ),
   );
 }
-//
-//function uuid_embed_object(AbstractFedoraObject $object) {
-//    echo "id = \n";
-//}
+
+function uuid_embed_object() {
+  $parameters = drupal_get_query_parameters($query = NULL);
+  if (isset($parameters['url']) && $parameters['url'] != "") {
+    $url = $parameters['url'];
+    unset($parameters['url']);
+    $url = getTranslatedUrl($url);
+    drupal_goto($url, array('query' => $parameters));
+  }
+  exit();
+}
+
+function getTranslatedUrl($url) {
+    try{
+        $url_arr = explode("/embed/uuid/",$url);
+        $uuid = $url_arr[count($url_arr)-1];
+        $translatedUrl = $url_arr[0]."/islandora/embed/object/islandora%3A".$uuid;
+        //$translatedUrl = "/islandra/embed/object/islandora%3A".$uuid;
+        return $translatedUrl;
+    }
+    catch(Exception $ex){
+        echo "The uuid cannot be translated!\n";
+        echo $exc->getTraceAsString();
+    }
+}
