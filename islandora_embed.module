@@ -146,23 +146,6 @@ function islandora_embed_object_UI(AbstractFedoraObject $object) {
   $resGenerator->getEmbeddedObjUI();
 }
 
-/**
- * Test purpose only. No practical use.
- *
- * @return array
- */
-function islandora_embed_theme() {
-  return array(
-    'islandora_internet_archive_bookreader_book_info' => array(
-      'file' => 'theme/theme.inc',
-      'template' => 'theme/islandora-embed',
-      'variables' => array('object' => NULL),
-      'preprocess functions' => array(
-        0 => 'islandora_embed_preprocess_islandora_embed',
-      ),
-    ),
-  );
-}
 
 function uuid_embed_object() {
   $parameters = drupal_get_query_parameters($query = NULL);
