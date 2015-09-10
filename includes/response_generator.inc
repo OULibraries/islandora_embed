@@ -3,6 +3,9 @@
 /**
  * This class provides the function to output object-related information.
  */
+
+@include_once 'sites/all/libraries/tuque/Object.php';
+
 Class FedoraObjectExtended extends FedoraObject
 {
     public function __construct($id, $repository)
