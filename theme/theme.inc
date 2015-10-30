@@ -30,6 +30,8 @@ function islandora_embed_process_islandora_internet_archive_bookreader(&$variabl
  */
 function islandora_embed_preprocess_html(&$variables)
 {
-    if($variables["directory"] == "sites/all/themes/entity_iframe_theme")
+    if(!empty($variables["directory"]) && $variables["directory"] == "sites/all/themes/entity_iframe_theme"){
         $variables["classes_array"][3] = "no-sidebars";
+        $variables["page"]["page_top"]["toolbar"] = TRUE;
+    }
 }
