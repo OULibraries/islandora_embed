@@ -44,12 +44,12 @@
                 bookBRtwopageview.css("top", "35px");
             }
         
-            // adjust the height of the book reader based on the iframe height:
-            var height = Drupal.settings.islandora_bookreader_embed.height;
-            var bookBRcontainer = $("div#BRcontainer");
-            if(bookBRcontainer) {
-                bookBRcontainer.css("height", parseInt(height)-112);
-            }
+            // // adjust the height of the book reader based on the iframe height:
+            // var height = Drupal.settings.islandora_bookreader_embed.height;
+            // var bookBRcontainer = $("div#BRcontainer");
+            // if(bookBRcontainer) {
+            //     bookBRcontainer.css("height", parseInt(height)-112);
+            // }
 
             // hide the side bars to better fit the book viewer in the iframe:
 //            var body = $("body");
