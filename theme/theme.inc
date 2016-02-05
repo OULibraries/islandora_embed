@@ -30,5 +30,18 @@ function islandora_embed_process_islandora_internet_archive_bookreader(&$variabl
  */
 function islandora_embed_preprocess_html(&$variables)
 {
-    $variables["classes_array"][3] = "no-sidebars";
+    if(!empty($variables["directory"]) && $variables["directory"] == "sites/all/themes/entity_iframe_theme"){
+        $variables["classes_array"][3] = "no-sidebars";
+        $variables["page"]["page_top"]["toolbar"] = TRUE;
+        $variables['classes_array'][] = "";
+        $variables['title_attributes_array'][] = "";
+        $variables['attributes_array'][] = "";
+        $variables['content_attributes_array'] = "";
+    }
+    else{
+        $variables['classes_array'][] = "";
+        $variables['title_attributes_array'][] = "";
+        $variables['attributes_array'][] = "";
+        $variables['content_attributes_array'] = "";
+    }
 }
