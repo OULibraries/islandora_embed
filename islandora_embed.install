@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * Implements hook_install().
+ *
+ * @see islandora_islandora_required_objects()
+ */
+function islandora_embed_install() {
+  module_load_include('module', 'islandora', 'islandora');
+}

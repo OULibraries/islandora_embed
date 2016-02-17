@@ -1,0 +1,188 @@
+<?php
+
+/**
+ * @file
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Implements hook_menu().
+ *
+ * @return string
+ */
+function islandora_embed_menu() {
+  $items = array();
+  $items['embed_service/uuid'] = array(
+    'title' => 'Islandora Embed',
+    'description' => "Interpret the embedding request and send back JSON objects",
+    'page callback' => 'uuid_embed_object',
+    'type' => MENU_CALLBACK,
+    'access callback' => TRUE,
+  );
+  $items['islandora/embed'] = array(
+    'title' => 'Islandora Embed',
+    'description' => "Interpret the embedding request and send back JSON objects",
+    'page callback' => 'islandora_embed',
+    'type' => MENU_CALLBACK,
+    'access callback' => TRUE,
+  );
+  $items['islandora/embed/maxwidth/%/maxheight/%/url/%'] = array(
+    'title' => 'Islandora Embed',
+    'description' => "Interpret the embedding request and send back JSON objects",
+    'page callback' => 'islandora_embed',
+    'type' => MENU_CALLBACK,
+    'access callback' => TRUE,
+  );
+  $items['islandora/embed/object/%islandora_object'] = array(
+    'title' => 'Islandora Embed',
+    'description' => "Send back JSON objects in response to oembed requests",
+    'page callback' => 'islandora_embed_object',
+    'page arguments' => array(3),
+    'type' => MENU_CALLBACK,
+    'access callback' => TRUE,
+  );
+  $items['islandora/embed/object_UI/%islandora_object'] = array(
+    'title' => 'Islandora Embed',
+    'description' => "Send back JSON objects in response to oembed requests",
+    'page callback' => 'islandora_embed_object_UI',
+    'page arguments' => array(3),
+    'type' => MENU_CALLBACK,
+    'access callback' => TRUE,
+  );
+    $items['embed/uuid/%'] = array(
+    'title' => 'Uuid Embed',
+    'description' => "Send back JSON objects in response to oembed requests",
+    'page callback' => 'uuid_embed_object_interpret',
+    'page arguments' => array(2),
+    'type' => MENU_CALLBACK,
+    'access callback' => TRUE,
+  );
+  return $items;
+}
+
+/**
+ * Redirects Oembed requests to appropriate content model module.
+ */
+function islandora_embed() {
+  $parameters = drupal_get_query_parameters($query = NULL);
+  if (isset($parameters['url']) && $parameters['url'] != "") {
+    $url = $parameters['url'];
+    unset($parameters['url']);
+    drupal_goto($url, array('query' => $parameters));
+  }
+  exit();
+}
+
+/**
+ * 
+ */
+function uuid_embed_object_interpret(){
+    global $base_url;
+
+    $path = current_path();
+    $url = $base_url . "/embed_service/uuid/?url=" . $base_url . "/" . $path; 
+    drupal_goto($url);
+   // print $url;
+}
+
+/**
+ * Generate the response based on the Oembed requests.
+ *
+ * @global type $base_url
+ * @param AbstractFedoraObject $object
+ * The object.
+ *
+ * @return JSON object
+ * JSON object containing data for being processed by the Oembed module
+ * to generate embedded display.
+ */
+function islandora_embed_object(AbstractFedoraObject $object) {
+  global $base_url;
+  module_load_include('inc', 'islandora_embed', 'includes/response_generator');
+  $fedoraObjExt = new FedoraObjectExtended($object->id, $object->repository);
+  if (isset($_GET['maxwidth'])) {
+    $maxwidth = $_GET['maxwidth'];
+  }
+  elseif (isset($_GET['width'])) {
+    $maxwidth = $_GET['width'];
+  }
+  if (isset($_GET['maxheight'])) {
+    $maxheight = $_GET['maxheight'];
+  }
+  elseif (isset($_GET['height'])) {
+    $maxheight = $_GET['height'];
+  }
+  $resGenerator = new RespsonseGenerator($fedoraObjExt, $base_url, $maxheight, $maxwidth);
+  $resGenerator->getJSONResponse();
+}
+
+/**
+ * Redirects the requests directly to the display of content model without returning JSON objects.
+ *
+ * @global type $base_url
+ * @param AbstractFedoraObject $object
+ * The object.
+ */
+function islandora_embed_object_UI(AbstractFedoraObject $object) {
+  global $base_url;
+  module_load_include('inc', 'islandora_embed', 'includes/response_generator');
+  module_load_include('inc', 'islandora', 'islandora.module');
+  $fedoraObjExt = new FedoraObjectExtended($object->id, $object->repository);
+  if (isset($_GET['maxwidth'])) {
+    $maxwidth = $_GET['maxwidth'];
+  }
+  elseif (isset($_GET['width'])) {
+    $maxwidth = $_GET['width'];
+  }
+  if (isset($_GET['maxheight'])) {
+    $maxheight = $_GET['maxheight'];
+  }
+  elseif (isset($_GET['height'])) {
+    $maxheight = $_GET['height'];
+  }
+  $resGenerator = new RespsonseGenerator($fedoraObjExt, $base_url, $maxheight, $maxwidth);
+  $resGenerator->getEmbeddedObjUI();
+}
+
+function uuid_embed_object() {
+  $parameters = drupal_get_query_parameters($query = NULL);
+  if (isset($parameters['url']) && $parameters['url'] != "") {
+    $url = $parameters['url'];
+    unset($parameters['url']);
+    $url = getTranslatedUrl($url);
+    drupal_goto($url, array('query' => $parameters));
+  }
+  exit();
+}
+
+function getTranslatedUrl($url) {
+    try{
+        $url_arr = explode("/embed/uuid/",$url);
+        $uuid = $url_arr[count($url_arr)-1];
+        $translatedUrl = $url_arr[0]."/islandora/embed/object/islandora%3A".$uuid;
+        //$translatedUrl = "/islandra/embed/object/islandora%3A".$uuid;
+        return $translatedUrl;
+    }
+    catch(Exception $ex){
+        echo "The uuid cannot be translated!\n";
+        echo $exc->getTraceAsString();
+    }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function islandora_embed_theme(){
+    return array(    
+    'islandora_internet_archive_bookreader_book_info' => array(
+      'file' => 'theme/theme.inc',
+      'template' => 'theme/islandora-embed',
+      'variables' => array('object' => NULL),
+       'preprocess functions' => array(
+          0 => 'islandora_embed_preprocess_html'
+        ),
+    ),
+  );
+}

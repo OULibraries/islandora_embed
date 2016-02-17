@@ -1,0 +1,8 @@
+name = Islandora Embed
+description = Respond to the Oembed requests and send back the JSON objects.
+dependencies[] = islandora
+dependencies[] = oembedcore
+dependencies[] = oembedprovider
+package = Islandora
+version = 7.x-1.3
+core = 7.x
