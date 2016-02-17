@@ -169,20 +169,4 @@ function getTranslatedUrl($url) {
         echo "The uuid cannot be translated!\n";
         echo $exc->getTraceAsString();
     }
-}
-
-/**
- * Implements hook_theme().
- */
-function islandora_embed_theme(){
-    return array(    
-    'islandora_internet_archive_bookreader_book_info' => array(
-      'file' => 'theme/theme.inc',
-      'template' => 'theme/islandora-embed',
-      'variables' => array('object' => NULL),
-       'preprocess functions' => array(
-          0 => 'islandora_embed_preprocess_html'
-        ),
-    ),
-  );
-}
+} 
