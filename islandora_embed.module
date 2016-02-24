@@ -169,4 +169,5 @@ function getTranslatedUrl($url) {
         echo "The uuid cannot be translated!\n";
         echo $exc->getTraceAsString();
     }
-} 
+}
+
