@@ -174,13 +174,9 @@ Class RespsonseGenerator
            $encodedUrl = $this->base_url."/uuid/".$id."?ui=embed";                
 //	$encodedUrl = "https://dev.repository.ou.edu/uuid/9ab56f04-7210-5212-b3b7-c6ead8d53779?ui=embed";
             if($this->width > 0) {
-                //$encodedUrl .= "&wight=".$this->width;
-                $this->setIframeWidth($this->width);
                 $encodedUrl .= "&width=".$this->width;
             }
             elseif($this->height > 0) {
-                //$encodedUrl .= "&height=".$this->height;
-                $this->setIframeHeight($this->height);
                 $encodedUrl .= "&height=".$this->height;
             }
             $resArray['type'] = "rich";
