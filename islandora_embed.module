@@ -115,7 +115,7 @@ function islandora_embed_object(AbstractFedoraObject $object) {
   elseif (isset($_GET['height'])) {
     $maxheight = $_GET['height'];
   }
-  $resGenerator = new RespsonseGenerator($fedoraObjExt, $base_url, $maxheight, $maxwidth);
+  $resGenerator = new RespsonseGenerator($fedoraObjExt, $base_url, $maxheight, $maxwidth, $maxheight, $maxwidth);
   $resGenerator->getJSONResponse();
 }
 
