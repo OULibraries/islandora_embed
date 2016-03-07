@@ -87,14 +87,14 @@ Class RespsonseGenerator
         elseif(empty ($width)){
             $width = $height * 1.309;
         }
-        elseif(!empty($height) && !empty($width)){
-            if($width > $height * 1.309){
-                $width = $height * 1.309;
-            }
-            else{
-                $height = $width / 1.309;
-            }
-        }
+//        elseif(!empty($height) && !empty($width)){
+//            if($width > $height * 1.309){
+//                $width = $height * 1.309;
+//            }
+//            else{
+//                $height = $width / 1.309;
+//            }
+//        }
         
         if(empty($iframeHeight)) {
             $iframeHeight = $height; 
@@ -176,7 +176,7 @@ Class RespsonseGenerator
             if($this->width > 0) {
                 $encodedUrl .= "&width=".$this->width;
             }
-            elseif($this->height > 0) {
+            if($this->height > 0) {
                 $encodedUrl .= "&height=".$this->height;
             }
             $resArray['type'] = "rich";
