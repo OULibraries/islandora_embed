@@ -82,7 +82,8 @@ function uuid_embed_object_interpret(){
     global $base_url;
 
     $path = current_path();
-    $url = $base_url . "/embed_service/uuid/?url=" . $base_url . "/" . $path; 
+    $parameters_string = $_SERVER['QUERY_STRING'];
+    $url = $base_url . "/embed_service/uuid/?url=" . $base_url . "/" . $path."?".$parameters_string; 
     drupal_goto($url);
    // print $url;
 }
@@ -114,7 +115,7 @@ function islandora_embed_object(AbstractFedoraObject $object) {
   elseif (isset($_GET['height'])) {
     $maxheight = $_GET['height'];
   }
-  $resGenerator = new RespsonseGenerator($fedoraObjExt, $base_url, $maxheight, $maxwidth);
+  $resGenerator = new RespsonseGenerator($fedoraObjExt, $base_url, $maxheight, $maxwidth, $maxheight, $maxwidth);
   $resGenerator->getJSONResponse();
 }
 
@@ -147,12 +148,14 @@ function islandora_embed_object_UI(AbstractFedoraObject $object) {
 }
 
 function uuid_embed_object() {
-  $parameters = drupal_get_query_parameters($query = NULL);
-  if (isset($parameters['url']) && $parameters['url'] != "") {
-    $url = $parameters['url'];
-    unset($parameters['url']);
-    $url = getTranslatedUrl($url);
-    drupal_goto($url, array('query' => $parameters));
+  $parameters_string = $_SERVER['QUERY_STRING'];
+  $parameters_string = explode("url=",$parameters_string);
+  $parameters_string = urldecode($parameters_string[1]);
+  if (isset($parameters_string) && $parameters_string != "") {
+    $url = getTranslatedUrl($parameters_string);
+    //$url_parameters = explode("?", $parameters_string);
+    //parse_str($url_parameters[1], $parameters);
+    drupal_goto($url);
   }
   exit();
 }

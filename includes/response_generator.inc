@@ -75,13 +75,31 @@ Class RespsonseGenerator
      * @param int                  $iframeHeight
      * @param int                  $iframeWidth
      */
-    public function __construct(FedoraObjectExtended $fedoraObjExt, $base_url, $height = 500, $width = 500, $iframeHeight = 500, $iframeWidth = 500)
+    public function __construct(FedoraObjectExtended $fedoraObjExt, $base_url, $height, $width, $iframeHeight, $iframeWidth)
     {
+        if(empty($height) && empty($width)){
+            $height = 500;
+            $width = 655;
+        }        
+        elseif(empty($height)){
+            $height = $width / 1.309;
+        }
+        elseif(empty ($width)){
+            $width = $height * 1.309;
+        }
+//        elseif(!empty($height) && !empty($width)){
+//            if($width > $height * 1.309){
+//                $width = $height * 1.309;
+//            }
+//            else{
+//                $height = $width / 1.309;
+//            }
+//        }
         
-        if($height != 500) {
+        if(empty($iframeHeight)) {
             $iframeHeight = $height; 
         }
-        if($width != 500) {
+        if(empty($iframeWidth)) {
             $iframeWidth = $width; 
         }
         
@@ -156,14 +174,10 @@ Class RespsonseGenerator
            $encodedUrl = $this->base_url."/uuid/".$id."?ui=embed";                
 //	$encodedUrl = "https://dev.repository.ou.edu/uuid/9ab56f04-7210-5212-b3b7-c6ead8d53779?ui=embed";
             if($this->width > 0) {
-                $encodedUrl .= "&wight=".$this->width;
-                $this->setHeight($this->width);
-                $encodedUrl .= "&height=".$this->height;
+                $encodedUrl .= "&width=".$this->width;
             }
-            elseif($this->height > 0) {
+            if($this->height > 0) {
                 $encodedUrl .= "&height=".$this->height;
-                $this->setWidth($this->height);
-                $encodedUrl .= "&wight=".$this->width;
             }
             $resArray['type'] = "rich";
             $resArray['version'] = "1";
