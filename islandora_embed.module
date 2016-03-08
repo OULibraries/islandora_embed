@@ -148,14 +148,33 @@ function islandora_embed_object_UI(AbstractFedoraObject $object) {
 }
 
 function uuid_embed_object() {
+  $parameters = array();
   $parameters_string = $_SERVER['QUERY_STRING'];
-  $parameters_string = explode("url=",$parameters_string);
-  $parameters_string = urldecode($parameters_string[1]);
-  if (isset($parameters_string) && $parameters_string != "") {
-    $url = getTranslatedUrl($parameters_string);
-    //$url_parameters = explode("?", $parameters_string);
-    //parse_str($url_parameters[1], $parameters);
-    drupal_goto($url);
+  parse_str($parameters_string, $parameters);
+  $url = urldecode($parameters['url']);
+  if(!empty($parameters['maxheight'] || !empty($parameters['height']))){
+      $height = !empty($parameters['maxheight']) ? $parameters['maxheight'] : $parameters['height'];
+  }
+  if(!empty($parameters['maxwidth'] || !empty($parameters['width']))){
+      $width = !empty($parameters['maxwidth']) ? $parameters['maxwidth'] : $parameters['width'];
+  }
+  $query_string = "";
+  if(!empty($height) || !empty($width)){
+      $query_string = "?";
+      if(!empty($height)){
+          $query_string .= "height=".$height;
+      }
+      if(!empty($width)){
+            if(!empty($height)){
+              $query_string .= "&";
+            }
+            $query_string .= "width=".$width;
+      }
+  }
+  $url = $url.$query_string;
+  if (isset($url) && $url != "") {
+    $translated_url = getTranslatedUrl($url);
+    drupal_goto($translated_url);
   }
   exit();
 }
