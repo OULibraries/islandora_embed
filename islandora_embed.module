@@ -152,7 +152,7 @@ function uuid_embed_object() {
   $parameters_string = $_SERVER['QUERY_STRING'];
   parse_str($parameters_string, $parameters);
   $url = urldecode($parameters['url']);
-  if(!empty($parameters['maxheight'] || !empty($parameters['height']))){
+  if(!empty($parameters['maxheight']) || !empty($parameters['height'])){
       $height = !empty($parameters['maxheight']) ? $parameters['maxheight'] : $parameters['height'];
   }
   if(!empty($parameters['maxwidth'] || !empty($parameters['width']))){
