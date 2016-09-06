@@ -155,7 +155,7 @@ function uuid_embed_object() {
   if(!empty($parameters['maxheight']) || !empty($parameters['height'])){
       $height = !empty($parameters['maxheight']) ? $parameters['maxheight'] : $parameters['height'];
   }
-  if(!empty($parameters['maxwidth'] || !empty($parameters['width']))){
+  if(!empty($parameters['maxwidth']) || !empty($parameters['width'])){
       $width = !empty($parameters['maxwidth']) ? $parameters['maxwidth'] : $parameters['width'];
   }
   $query_string = "";
