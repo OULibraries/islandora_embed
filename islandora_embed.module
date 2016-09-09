@@ -193,3 +193,15 @@ function getTranslatedUrl($url) {
     }
 }
 
+/**
+ * Implements hook_theme().
+*/
+function islandora_embed_theme(){
+    return array(    
+    'islandora_internet_archive_bookreader_book_info' => array(
+      'file' => 'theme/theme.inc',
+      'template' => 'theme/islandora-embed',
+      'variables' => array('object' => NULL),
+    ),
+  );
+} 
