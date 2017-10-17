@@ -21,20 +21,20 @@ function islandora_embed_menu() {
     'type' => MENU_CALLBACK,
     'access callback' => TRUE,
   );
-  $items['islandora/embed'] = array(
-    'title' => 'Islandora Embed',
-    'description' => "Interpret the embedding request and send back JSON objects",
-    'page callback' => 'islandora_embed',
-    'type' => MENU_CALLBACK,
-    'access callback' => TRUE,
-  );
-  $items['islandora/embed/maxwidth/%/maxheight/%/url/%'] = array(
-    'title' => 'Islandora Embed',
-    'description' => "Interpret the embedding request and send back JSON objects",
-    'page callback' => 'islandora_embed',
-    'type' => MENU_CALLBACK,
-    'access callback' => TRUE,
-  );
+//  $items['islandora/embed'] = array(
+//    'title' => 'Islandora Embed',
+//    'description' => "Interpret the embedding request and send back JSON objects",
+//    'page callback' => 'islandora_embed',
+//    'type' => MENU_CALLBACK,
+//    'access callback' => TRUE,
+//  );
+//  $items['islandora/embed/maxwidth/%/maxheight/%/url/%'] = array(
+//    'title' => 'Islandora Embed',
+//    'description' => "Interpret the embedding request and send back JSON objects",
+//    'page callback' => 'islandora_embed',
+//    'type' => MENU_CALLBACK,
+//    'access callback' => TRUE,
+//  );
   $items['islandora/embed/object/%islandora_object'] = array(
     'title' => 'Islandora Embed',
     'description' => "Send back JSON objects in response to oembed requests",
@@ -180,11 +180,15 @@ function uuid_embed_object() {
 }
 
 function getTranslatedUrl($url) {
+    module_load_include('inc', 'islandora_embed', 'includes/utilities');
     try{
         $url_arr = explode("/embed/uuid/",$url);
         $uuid = $url_arr[count($url_arr)-1];
-        $translatedUrl = $url_arr[0]."/islandora/embed/object/islandora%3A".$uuid;
-        //$translatedUrl = "/islandra/embed/object/islandora%3A".$uuid;
+	$uuid_arr = explode("?", $uuid);
+	$path = 'uuid/'.$uuid_arr[0];
+	$prefix = _get_pid_prefix($path);
+	$pid_prefix = urlencode($prefix.":");
+	$translatedUrl = $url_arr[0]."/islandora/embed/object/".$pid_prefix.$uuid;
         return $translatedUrl;
     }
     catch(Exception $ex){
