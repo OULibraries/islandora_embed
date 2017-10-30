@@ -21,20 +21,7 @@ function islandora_embed_menu() {
     'type' => MENU_CALLBACK,
     'access callback' => TRUE,
   );
-//  $items['islandora/embed'] = array(
-//    'title' => 'Islandora Embed',
-//    'description' => "Interpret the embedding request and send back JSON objects",
-//    'page callback' => 'islandora_embed',
-//    'type' => MENU_CALLBACK,
-//    'access callback' => TRUE,
-//  );
-//  $items['islandora/embed/maxwidth/%/maxheight/%/url/%'] = array(
-//    'title' => 'Islandora Embed',
-//    'description' => "Interpret the embedding request and send back JSON objects",
-//    'page callback' => 'islandora_embed',
-//    'type' => MENU_CALLBACK,
-//    'access callback' => TRUE,
-//  );
+
   $items['islandora/embed/object/%islandora_object'] = array(
     'title' => 'Islandora Embed',
     'description' => "Send back JSON objects in response to oembed requests",
