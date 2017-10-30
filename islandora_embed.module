@@ -134,6 +134,10 @@ function islandora_embed_object_UI(AbstractFedoraObject $object) {
   $resGenerator->getEmbeddedObjUI();
 }
 
+/**
+* Interpret and the request and get the URL pattern
+* '/islandora/embed/object/islandora%3Auuid?height=h&width=w' and redirect the request to the interpreted URL
+*/
 function uuid_embed_object() {
   $parameters = array();
   $parameters_string = $_SERVER['QUERY_STRING'];
@@ -166,6 +170,9 @@ function uuid_embed_object() {
   exit();
 }
 
+/**
+* Translate the url pattern from '/embed/uuid/uuid' to '/islandora/embed/object/islandora%3Auuid'
+*/
 function getTranslatedUrl($url) {
     module_load_include('inc', 'islandora_embed', 'includes/utilities');
     try{
