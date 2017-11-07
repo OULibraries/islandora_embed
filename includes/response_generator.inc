@@ -87,14 +87,6 @@ Class RespsonseGenerator
         elseif(empty ($width)){
             $width = $height * 1.309;
         }
-//        elseif(!empty($height) && !empty($width)){
-//            if($width > $height * 1.309){
-//                $width = $height * 1.309;
-//            }
-//            else{
-//                $height = $width / 1.309;
-//            }
-//        }
         
         if(empty($iframeHeight)) {
             $iframeHeight = $height; 
@@ -172,7 +164,7 @@ Class RespsonseGenerator
             $id = explode(":",$id);
             $id = $id[1];
            $encodedUrl = $this->base_url."/uuid/".$id."?ui=embed";                
-//	$encodedUrl = "https://dev.repository.ou.edu/uuid/9ab56f04-7210-5212-b3b7-c6ead8d53779?ui=embed";
+
             if($this->width > 0) {
                 $encodedUrl .= "&width=".$this->width;
             }
